@@ -19,7 +19,7 @@ describe("Test for reading file_input", () => {
   it("checking commands", (done) => {
     assert.equal(commands[0].split(" ")[0], "create_parking_lot");
     assert.equal(commands[1].split(" ")[0], "park");
-    assert.equal(commands[7].split(" ")[0], "leave");
+    assert.equal(commands[11].split(" ")[0], "leave");
     assert.equal(commands[8], "status");
     done();
   });
@@ -36,6 +36,14 @@ describe("Test parking lot factor function", () => {
     const platNumber = commands[1].split(" ")[1];
     const parkedCar = parkingLotFn.handleParkCar(commands[1]);
     assert.equal(parkedCar, platNumber);
+    done();
+  });
+  it("should remove car with given platNumber", (done) => {
+    const platNumber = commands[1].split(" ")[1];
+    const { platNumber: removedPlatItem } = parkingLotFn.handleRemoveCar(
+      commands[11]
+    );
+    assert.equal(removedPlatItem, platNumber);
     done();
   });
 });
