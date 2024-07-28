@@ -32,4 +32,10 @@ describe("Test parking lot factor function", () => {
     assert.equal(totalParkingSpace, 6);
     done();
   });
+  it("should parked a car with given platNumber", (done) => {
+    const platNumber = commands[1].split(" ")[1];
+    const parkedCar = parkingLotFn.handleParkCar(commands[1]);
+    assert.equal(parkedCar, platNumber);
+    done();
+  });
 });
