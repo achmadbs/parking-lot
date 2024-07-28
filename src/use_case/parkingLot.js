@@ -1,5 +1,10 @@
+import {
+  logingFromInputNumber,
+  handleCalculateParkingFee,
+} from "../utils/mixins.js";
+
 const vehicle = ({ platNumber, entryTime }) => {
-  return { platNumber, entryTime, leaveTime: null };
+  return { platNumber, entryTime };
 };
 
 const parkingLotFactory = () => {
@@ -13,6 +18,9 @@ const parkingLotFactory = () => {
       throw new Error("Parking slot cannot less than 0");
     }
     parkingSlot = new Array(TOTAL_PARKING_LOT).fill(null);
+
+    const logValue = logingFromInputNumber(inputNumber);
+    console.log(logValue);
     return TOTAL_PARKING_LOT;
   };
 
@@ -40,13 +48,20 @@ const parkingLotFactory = () => {
         (slot) => slot?.platNumber === platNumber
       );
       if (isVehicleWithGivenPlatNumberExist < 0)
-        throw new Error("Vehicle with given plat number does not exist");
+        throw new Error(`Registration number ${platNumber} not found`);
 
       const removedVehicle = parkingSlot.splice(
         isVehicleWithGivenPlatNumberExist,
         1
       );
-
+      const totalParkingFees = handleCalculateParkingFee(
+        removedVehicle[0]?.entryTime
+      );
+      console.log(
+        `Registration number ${platNumber} with Slot Number ${
+          isVehicleWithGivenPlatNumberExist + 1
+        } is free with Charge ${totalParkingFees}`
+      );
       return removedVehicle[0];
     } else {
       throw new Error("Please create parking lot first");
