@@ -25,47 +25,38 @@ const parkingLotFactory = () => {
   };
 
   const handleParkCar = (command) => {
-    if (!!TOTAL_PARKING_LOT) {
-      const isParkingSlotAvailable = parkingSlot.some((slot) => slot === null);
-      if (!isParkingSlotAvailable)
-        throw new Error("Sorry parking slot is full");
-      const platNumber = command.split(" ")[1];
-      for (let i = 0; i < parkingSlot.length; i++) {
-        if (parkingSlot[i] === null) {
-          parkingSlot[i] = vehicle({ platNumber, entryTime: new Date() });
-          return platNumber;
-        }
+    const isParkingSlotAvailable = parkingSlot.some((slot) => slot === null);
+    if (!isParkingSlotAvailable) throw new Error("Sorry parking slot is full");
+    const platNumber = command.split(" ")[1];
+    for (let i = 0; i < parkingSlot.length; i++) {
+      if (parkingSlot[i] === null) {
+        parkingSlot[i] = vehicle({ platNumber, entryTime: new Date() });
+        return platNumber;
       }
-    } else {
-      throw new Error("Please create parking lot first");
     }
   };
 
   const handleRemoveCar = (command) => {
-    if (!!TOTAL_PARKING_LOT) {
-      const platNumber = command.split(" ")[1];
-      const isVehicleWithGivenPlatNumberExist = parkingSlot.findIndex(
-        (slot) => slot?.platNumber === platNumber
-      );
-      if (isVehicleWithGivenPlatNumberExist < 0)
-        throw new Error(`Registration number ${platNumber} not found`);
+    const platNumber = command.split(" ")[1];
+    const isVehicleWithGivenPlatNumberExist = parkingSlot.findIndex(
+      (slot) => slot?.platNumber === platNumber
+    );
+    if (isVehicleWithGivenPlatNumberExist < 0)
+      throw new Error(`Registration number ${platNumber} not found`);
 
-      const removedVehicle = parkingSlot.splice(
-        isVehicleWithGivenPlatNumberExist,
-        1
-      );
-      const totalParkingFees = handleCalculateParkingFee(
-        removedVehicle[0]?.entryTime
-      );
-      console.log(
-        `Registration number ${platNumber} with Slot Number ${
-          isVehicleWithGivenPlatNumberExist + 1
-        } is free with Charge ${totalParkingFees}`
-      );
-      return removedVehicle[0];
-    } else {
-      throw new Error("Please create parking lot first");
-    }
+    const removedVehicle = parkingSlot.splice(
+      isVehicleWithGivenPlatNumberExist,
+      1
+    );
+    const totalParkingFees = handleCalculateParkingFee(
+      removedVehicle[0]?.entryTime
+    );
+    console.log(
+      `Registration number ${platNumber} with Slot Number ${
+        isVehicleWithGivenPlatNumberExist + 1
+      } is free with Charge ${totalParkingFees}`
+    );
+    return removedVehicle[0];
   };
 
   const handlePrintStatus = () => {
