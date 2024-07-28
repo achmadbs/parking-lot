@@ -68,10 +68,24 @@ const parkingLotFactory = () => {
     }
   };
 
+  const handlePrintStatus = () => {
+    const isParkingSlotEmpty = parkingSlot.every((slot) => slot === null);
+    if (isParkingSlotEmpty) {
+      return null;
+    } else {
+      let baseLog = "Slot No. Registration No.\n";
+      parkingSlot.forEach((slot, idx) => {
+        baseLog += `${idx + 1} ${slot?.platNumber}\n`;
+      });
+      console.log(baseLog);
+    }
+  };
+
   return {
     createParkingLot,
     handleParkCar,
     handleRemoveCar,
+    handlePrintStatus,
   };
 };
 

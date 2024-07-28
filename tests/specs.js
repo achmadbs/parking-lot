@@ -46,4 +46,8 @@ describe("Test parking lot factor function", () => {
     assert.equal(removedPlatItem, platNumber);
     done();
   });
+  it("should log current parking status", (done) => {
+    parkingLotFn.handlePrintStatus();
+    done();
+  });
 });
